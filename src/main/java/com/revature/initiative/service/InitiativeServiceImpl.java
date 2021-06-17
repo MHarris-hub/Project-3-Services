@@ -134,24 +134,6 @@ public class InitiativeServiceImpl implements InitiativeService {
         return initiativeMapDTO(initiativeRepository.save(ent));
     }
 
-    @Transactional
-    @Override
-    public InitiativeDTO setInitiativePOC(long initId, long userId) {
-        Initiative ent = initiativeRepository.findById(initId).orElseThrow(NoSuchElementException::new);
-        ent.setPointOfContactId(userId);
-        logger.info("Initiative POC set with [ Initiative ID: {}, User ID: {} ]", initId, userId);
-        return initiativeMapDTO(initiativeRepository.save(ent));
-    }
-
-    @Transactional
-    @Override
-    public InitiativeDTO setInitiativePOC(long initId, String username) {
-        Initiative ent = initiativeRepository.findById(initId).orElseThrow(NoSuchElementException::new);
-        ent.setPointOfContactId(userRepository.findByUsername(username).getId());
-        logger.info("Initiative POC set with [ Initiative ID: {}, Username: {} ]", initId, username);
-        return initiativeMapDTO(initiativeRepository.save(ent));
-    }
-
     //This is the one we're using
     @Transactional
     @Override
@@ -169,16 +151,6 @@ public class InitiativeServiceImpl implements InitiativeService {
         }
         ent.setPointOfContactId(userId);
         logger.info("Initiative POC set with [ Initiative Title: {}, User ID: {} ]", title, userId);
-        return initiativeMapDTO(initiativeRepository.save(ent));
-    }
-
-    @Transactional
-    @Override
-    public InitiativeDTO setInitiativePOC(String title, String username) {
-        Initiative ent = initiativeRepository.findByTitle(title);
-        if (ent == null) return null;
-        ent.setPointOfContactId(userRepository.findByUsername(username).getId());
-        logger.info("Initiative POC set with [ Title: {}, Username: {} ]", title, username);
         return initiativeMapDTO(initiativeRepository.save(ent));
     }
 

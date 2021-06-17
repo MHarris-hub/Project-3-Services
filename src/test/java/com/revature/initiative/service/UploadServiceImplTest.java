@@ -179,8 +179,4 @@ class UploadServiceImplTest {
         verify(fileRepository, times(0)).save(any(File.class));
         verify(amazonS3, times(0)).putObject(any());
     }
-
-    @Test
-    void uploadFileURLtoDB() {
-    }
 }

@@ -6,6 +6,7 @@ import com.revature.initiative.dto.InitiativeDTO;
 import com.revature.initiative.enums.InitiativeState;
 import com.revature.initiative.enums.Role;
 import com.revature.initiative.exception.EmptyEntity;
+import com.revature.initiative.model.File;
 import com.revature.initiative.model.Initiative;
 import com.revature.initiative.model.User;
 import com.revature.initiative.repository.InitiativeRepository;
@@ -18,10 +19,7 @@ import org.mockito.ArgumentCaptor;
 
 import java.sql.Date;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -127,7 +125,16 @@ class InitiativeServiceTest {
 
     @Test
     void testGetInitiative() {
-        when(initiativeRepository.findByTitle("1")).thenReturn(generateInit(1));
+        Initiative init = generateInit(1);
+        Set<User> listOfMembers = new HashSet<>();
+        listOfMembers.add(generateUser(1));
+        Set<File> files = new HashSet<>();
+        File file = new File();
+        file.setId(1l);
+        files.add(file);
+        init.setFiles(files);
+        init.setMembers(listOfMembers);
+        when(initiativeRepository.findByTitle("1")).thenReturn(init);
         InitiativeDTO test = testSubject.getInitiative("1");
         Assertions.assertEquals(1L, test.getInitiativeId());
     }
@@ -155,6 +162,7 @@ class InitiativeServiceTest {
         for (Initiative i : data) i.setState(InitiativeState.values()[0]);
         when(initiativeRepository.findByState(InitiativeState.values()[0])).thenReturn(data);
         List<InitiativeDTO> test = testSubject.getInitiatives(InitiativeState.values()[0]);
+        System.out.println(test);
         Assertions.assertEquals(3, test.size());
         Assertions.assertEquals(1l, test.get(0).getInitiativeId());
         Assertions.assertEquals(2l, test.get(1).getInitiativeId());

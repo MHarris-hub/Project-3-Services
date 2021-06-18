@@ -18,13 +18,7 @@ public interface InitiativeService {
 
     InitiativeDTO setInitiativeState(Long id, InitiativeState state);
 
-    InitiativeDTO setInitiativePOC(long initId, long userId);
-
-    InitiativeDTO setInitiativePOC(long initId, String username);
-
     InitiativeDTO setInitiativePOC(String title, long userId);
-
-    InitiativeDTO setInitiativePOC(String title, String username);
 
     void remInitiative(long id);
 
